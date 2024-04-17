@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 import { observer } from "mobx-react-lite";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import pizzaLogoSvg from "@/assets/img/pizza-logo.svg";
 import { Search } from "./";
@@ -15,6 +15,7 @@ export const Header: React.FC = observer(() => {
     AuthStore: { isAuth, setFromPath, signOut },
   } = useStores();
   const isMounted = useRef(false);
+  const router = useRouter();
 
   // Сохранение состояния авторизации
   useEffect(() => {
@@ -35,7 +36,7 @@ export const Header: React.FC = observer(() => {
   const onCLickAuth = () => {
     setFromPath(location.pathname);
     localStorage.setItem("fromPath", location.pathname);
-    redirect("/auth");
+    router.push("/auth");
   };
 
   return (
