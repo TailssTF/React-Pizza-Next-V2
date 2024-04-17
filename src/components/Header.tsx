@@ -1,13 +1,13 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 import { observer } from "mobx-react-lite";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
 
 import pizzaLogoSvg from "@/assets/img/pizza-logo.svg";
 import { Search } from "./";
 import { useStores } from "../Store-context";
-import Link from "next/link";
-import Image from "next/image";
 
 export const Header: React.FC = observer(() => {
   const {
@@ -16,6 +16,7 @@ export const Header: React.FC = observer(() => {
   } = useStores();
   const isMounted = useRef(false);
   const router = useRouter();
+  const pathName = usePathname();
 
   // Сохранение состояния авторизации
   useEffect(() => {
@@ -34,8 +35,8 @@ export const Header: React.FC = observer(() => {
   }, [totalItems]);
 
   const onCLickAuth = () => {
-    setFromPath(location.pathname);
-    localStorage.setItem("fromPath", location.pathname);
+    setFromPath(pathName);
+    localStorage.setItem("fromPath", pathName);
     router.push("/auth");
   };
 
@@ -51,8 +52,8 @@ export const Header: React.FC = observer(() => {
             </div>
           </div>
         </Link>
-        {location.pathname == "/" && <Search />}
-        {location.pathname != "/cart" && (
+        {pathName == "/" && <Search />}
+        {pathName != "/cart" && (
           <div className="header__cart">
             <Link href="/cart" className="button button--cart">
               <span>{totalPrice} ₽</span>
