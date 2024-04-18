@@ -56,7 +56,7 @@ export const Header: React.FC = observer(() => {
         {pathName != "/cart" && (
           <div className="header__cart">
             <Link href="/cart" className="button button--cart">
-              <span>{totalPrice} ₽</span>
+              <span>{isMounted.current ? totalPrice : 0} ₽</span>
               <div className="button__delimiter"></div>
               <svg
                 width="18"
@@ -87,7 +87,7 @@ export const Header: React.FC = observer(() => {
                   strokeLinejoin="round"
                 />
               </svg>
-              <span>{totalItems}</span>
+              <span>{isMounted.current ? totalItems : 0}</span>
             </Link>
           </div>
         )}

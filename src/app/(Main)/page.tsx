@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { observer } from "mobx-react-lite";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useStores } from "@/Store-context";
 import qs from "qs";
 
@@ -129,7 +129,9 @@ const Home: React.FC = observer(() => {
         </div>
       ) : (
         <div className="content__items">
-          {state == State.PENDING ? pizzaSkeletons : pizzas}
+          {state == State.PENDING && isMounted.current
+            ? pizzaSkeletons
+            : pizzas}
         </div>
       )}
       <Pagination />

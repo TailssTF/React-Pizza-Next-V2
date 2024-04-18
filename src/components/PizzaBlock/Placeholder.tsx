@@ -3,6 +3,7 @@ import ContentLoader from "react-content-loader";
 export const Placeholder = () => (
   <ContentLoader
     className="pizza-block"
+    id="pizza-skeleton"
     speed={2}
     width={280}
     height={474}
