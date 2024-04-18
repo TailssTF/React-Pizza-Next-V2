@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useRef } from "react";
 import { observer } from "mobx-react-lite";
 import { redirect } from "next/navigation";
 import { useStores } from "@/Store-context";
@@ -10,13 +11,18 @@ const Cart: React.FC = observer(() => {
     CartStore: { items, totalItems, totalPrice, clearCart },
     AuthStore: { isAuth, setFromPath },
   } = useStores();
+  const isMounted = useRef(false);
 
   const onCLickAuth = () => {
     setFromPath("/cart");
     redirect("/auth");
   };
 
-  if (!totalItems) {
+  useEffect(() => {
+    isMounted.current = true;
+  }, []);
+
+  if (!totalItems || !isMounted.current) {
     return <CartEmpty />;
   }
   return (

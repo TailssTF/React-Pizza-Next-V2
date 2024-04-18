@@ -91,7 +91,7 @@ export const Header: React.FC = observer(() => {
             </Link>
           </div>
         )}
-        {isAuth ? (
+        {isAuth && isMounted.current ? (
           <button onClick={signOut} className="button button--small">
             <svg
               xmlns="http://www.w3.org/2000/svg"
