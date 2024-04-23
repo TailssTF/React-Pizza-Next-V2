@@ -54,7 +54,9 @@ export const Sort: React.FC = observer(() => {
           {selectedOrder == "desc" ? <>&#128899;</> : <>&#128897;</>}
         </div>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsOpen(!isOpen)}>{selectedSorting.name}</span>
+        <span className="sort__button" onClick={() => setIsOpen(!isOpen)}>
+          {selectedSorting.name}
+        </span>
       </div>
       {isOpen && (
         <div className="sort__popup">
