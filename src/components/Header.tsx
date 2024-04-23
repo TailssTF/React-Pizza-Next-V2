@@ -46,7 +46,12 @@ export const Header: React.FC = observer(() => {
         <div className="container">
           <Link href="/">
             <div className="header__logo">
-              <Image width="38" src={pizzaLogoSvg} alt="Pizza logo" />
+              <Image
+                width="38"
+                height="60"
+                src={pizzaLogoSvg}
+                alt="Pizza logo"
+              />
               <div>
                 <h1>React Pizza</h1>
                 <p>самая вкусная пицца во вселенной</p>
