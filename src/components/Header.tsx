@@ -41,7 +41,7 @@ export const Header: React.FC = observer(() => {
   };
 
   return (
-    <div className="sticky top-0 bg-white">
+    <div className="sticky top-0 bg-white z-10">
       <div className="header" id="header">
         <div className="container">
           <Link href="/">
