@@ -37,7 +37,11 @@ const Home: React.FC = observer(() => {
   ));
   const pizzas =
     items.length > 0
-      ? items.map((pizza) => <PizzaBlock {...pizza} key={pizza.id} />)
+      ? items.map((pizza) => (
+          <div className="pizza-block__wrapper">
+            <PizzaBlock isModal={false} pizza={pizza} key={pizza.id} />
+          </div>
+        ))
       : [];
 
   const url = new URL("https://660bdea73a0766e85dbcc139.mockapi.io/items");
