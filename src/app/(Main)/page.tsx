@@ -38,8 +38,8 @@ const Home: React.FC = observer(() => {
   const pizzas =
     items.length > 0
       ? items.map((pizza) => (
-          <div className="pizza-block__wrapper">
-            <PizzaBlock isModal={false} pizza={pizza} key={pizza.id} />
+          <div className="pizza-block__wrapper" key={pizza.id}>
+            <PizzaBlock isModal={false} pizza={pizza} />
           </div>
         ))
       : [];
