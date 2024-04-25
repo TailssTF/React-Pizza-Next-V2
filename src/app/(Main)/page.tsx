@@ -44,23 +44,6 @@ const Home: React.FC = observer(() => {
         ))
       : [];
 
-  const url = new URL("https://660bdea73a0766e85dbcc139.mockapi.io/items");
-  if (selectedCategory > 0) {
-    url.searchParams.append("category", `${selectedCategory}`);
-  }
-  url.searchParams.append("page", `${selectedPage + 1}`);
-  url.searchParams.append("limit", "4");
-  url.searchParams.append("sortBy", selectedSorting.sortProperty);
-  url.searchParams.append("order", selectedOrder);
-  if (searchValue) {
-    url.searchParams.append("search", searchValue);
-  }
-
-  const getPizzas = async () => {
-    await fetchPizzas(url);
-    window.scrollTo(0, 0);
-  };
-
   // Применение параметров поисковой строки
   useEffect(() => {
     if (window.location.search) {
@@ -75,7 +58,7 @@ const Home: React.FC = observer(() => {
       setFilters(params);
       isSearch.current = true;
     }
-  }, []);
+  }, [setFilters]);
 
   // Запись параметров в поисковую строку
   useEffect(() => {
@@ -96,10 +79,28 @@ const Home: React.FC = observer(() => {
     selectedOrder,
     selectedPage,
     searchValue,
+    router,
   ]);
 
   // Получение данных для пицц
   useEffect(() => {
+    const url = new URL("https://660bdea73a0766e85dbcc139.mockapi.io/items");
+    if (selectedCategory > 0) {
+      url.searchParams.append("category", `${selectedCategory}`);
+    }
+    url.searchParams.append("page", `${selectedPage + 1}`);
+    url.searchParams.append("limit", "4");
+    url.searchParams.append("sortBy", selectedSorting.sortProperty);
+    url.searchParams.append("order", selectedOrder);
+    if (searchValue) {
+      url.searchParams.append("search", searchValue);
+    }
+
+    const getPizzas = async () => {
+      await fetchPizzas(url);
+      window.scrollTo(0, 0);
+    };
+
     if (!isSearch.current) {
       getPizzas();
     }
@@ -110,6 +111,7 @@ const Home: React.FC = observer(() => {
     selectedOrder,
     selectedPage,
     searchValue,
+    fetchPizzas,
   ]);
 
   return (
