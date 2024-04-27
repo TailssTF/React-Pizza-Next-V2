@@ -11,6 +11,7 @@ export enum State {
 class PizzaStore {
   items: IPizza[] = [];
   state = State.PENDING;
+  totalCount: number = 0;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -25,9 +26,10 @@ class PizzaStore {
     this.state = State.PENDING;
 
     try {
-      const { data } = yield axios.get<IPizza[]>(String(url));
+      const { data, headers } = yield axios.get<IPizza[]>(String(url));
       this.state = State.DONE;
       this.items = data;
+      this.totalCount = headers["x-total-count"];
     } catch (error) {
       this.state = State.ERROR;
     }
