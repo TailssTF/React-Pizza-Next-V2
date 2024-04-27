@@ -84,13 +84,13 @@ const Home: React.FC = observer(() => {
 
   // Получение данных для пицц
   useEffect(() => {
-    const url = new URL("https://660bdea73a0766e85dbcc139.mockapi.io/items");
+    const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}pizza`);
     if (selectedCategory > 0) {
       url.searchParams.append("category", `${selectedCategory}`);
     }
     url.searchParams.append("page", `${selectedPage + 1}`);
     url.searchParams.append("limit", "4");
-    url.searchParams.append("sortBy", selectedSorting.sortProperty);
+    url.searchParams.append("sort", selectedSorting.sortProperty);
     url.searchParams.append("order", selectedOrder);
     if (searchValue) {
       url.searchParams.append("search", searchValue);

@@ -5,6 +5,7 @@ import { observer } from "mobx-react-lite";
 import { useStores } from "../../Store-context";
 import { pizzaType } from "../../stores/CartStore";
 import Link from "next/link";
+import Image from "next/image";
 
 export interface IPizza {
   id: number;

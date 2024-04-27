@@ -2,9 +2,7 @@ import { IPizza, PizzaBlock } from "@/components/PizzaBlock";
 import { Modal } from "@/components/Modal";
 
 const getPizza = async (id: string) => {
-  const res = await fetch(
-    "https://660bdea73a0766e85dbcc139.mockapi.io/items/" + id
-  );
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}pizza/` + id);
   return res.json();
 };
 

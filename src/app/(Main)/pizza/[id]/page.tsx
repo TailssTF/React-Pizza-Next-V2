@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { IPizza } from "@/components/PizzaBlock";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 const PizzaDetails = observer(({ params }: { params: { id: string } }) => {
   const id = params.id;
@@ -16,7 +17,7 @@ const PizzaDetails = observer(({ params }: { params: { id: string } }) => {
     const getPizza = async (id: string) => {
       try {
         const { data } = await axios.get(
-          "https://660bdea73a0766e85dbcc139.mockapi.io/items/" + id
+          `${process.env.NEXT_PUBLIC_API_URL}pizza/` + id
         );
         setPizza(data);
       } catch (error) {
@@ -27,7 +28,7 @@ const PizzaDetails = observer(({ params }: { params: { id: string } }) => {
     if (id) {
       getPizza(id);
     }
-  }, []);
+  }, [id, router]);
 
   return (
     <div className="container">
@@ -52,7 +53,7 @@ const PizzaDetails = observer(({ params }: { params: { id: string } }) => {
 
             <span>Вернуться назад</span>
           </Link>
-          <img src={pizza.imageUrl} />
+          <img src={pizza.imageUrl} alt={pizza.title} />
           <h2>{pizza.title}</h2>
           <h4>{pizza.price} ₽</h4>
         </div>
