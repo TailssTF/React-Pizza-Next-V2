@@ -10,11 +10,21 @@ export function Modal({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!dialogRef.current?.open) {
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${window.scrollY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.bottom = "0";
       dialogRef.current?.showModal();
     }
   }, []);
 
   function onDismiss() {
+    const scrollY = document.body.style.top;
+    document.body.style.position = "";
+    document.body.style.top = "";
+    window.scrollTo(0, parseInt(scrollY || "0") * -1);
+
     router.back();
   }
 
