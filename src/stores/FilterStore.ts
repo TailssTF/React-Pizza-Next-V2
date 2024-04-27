@@ -13,6 +13,7 @@ export interface IParameters {
   sortBy: string;
   order: string;
   page: string;
+  limit: string;
   search?: string;
 }
 
@@ -27,6 +28,7 @@ class FilterStore {
   selectedSorting: ISorting = defaultSorting;
   selectedOrder: Order = "desc";
   searchValue: string = "";
+  perPage: number = 4;
 
   constructor() {
     makeAutoObservable(this);
@@ -48,6 +50,9 @@ class FilterStore {
   setSearchValue = (value: string) => {
     this.searchValue = value;
   };
+  setPerPage = (value: number) => {
+    this.perPage = value;
+  };
 
   setFilters = (params: IParameters) => {
     const sortBy: ISorting =
@@ -57,6 +62,7 @@ class FilterStore {
 
     this.setSelectedCategory(Number(params.category));
     this.setSelectedPage(Number(params.page));
+    this.setPerPage(Number(params.limit));
     this.setSelectedSorting(sortBy);
     this.setSelectedOrder(order);
     if (params.search) {

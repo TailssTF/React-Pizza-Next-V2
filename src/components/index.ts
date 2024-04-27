@@ -6,5 +6,6 @@ export * from "./Pagination";
 export * from "./PizzaBlock";
 export * from "./PizzaBlock/Placeholder";
 export * from "./PizzaInCart";
+export * from "./PerPage";
 export * from "./Search";
 export * from "./Sort";

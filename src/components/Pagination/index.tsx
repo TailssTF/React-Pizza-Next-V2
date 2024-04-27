@@ -6,12 +6,12 @@ import { observer } from "mobx-react-lite";
 
 export const Pagination: React.FC = observer(() => {
   const {
-    FilterStore: { selectedPage, setSelectedPage },
+    FilterStore: { selectedPage, setSelectedPage, perPage },
     PizzaStore: { totalCount },
   } = useStores();
 
-  const pageRange = 4;
-  const pageCount = Math.ceil(totalCount / pageRange);
+  const pageRange = perPage;
+  const pageCount = totalCount / pageRange;
 
   return (
     <ReactPaginate

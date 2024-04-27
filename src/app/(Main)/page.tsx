@@ -12,6 +12,7 @@ import {
   PizzaBlock,
   Placeholder,
   Pagination,
+  PerPage,
 } from "@/components";
 import { IParameters } from "@/stores/FilterStore";
 import { State } from "@/stores/PizzaStore";
@@ -28,6 +29,7 @@ const Home: React.FC = observer(() => {
       selectedOrder,
       searchValue,
       setFilters,
+      perPage,
     },
     PizzaStore: { items, state, fetchPizzas },
   } = useStores();
@@ -51,6 +53,7 @@ const Home: React.FC = observer(() => {
       const params: IParameters = {
         category: String(paramsQs.category),
         sortBy: String(paramsQs.sortBy),
+        limit: String(paramsQs.limit),
         order: String(paramsQs.order),
         page: String(paramsQs.page),
       };
@@ -66,6 +69,7 @@ const Home: React.FC = observer(() => {
       const queryString = qs.stringify({
         category: selectedCategory,
         page: selectedPage,
+        limit: perPage,
         sortBy: selectedSorting.sortProperty,
         order: selectedOrder,
       });
@@ -79,6 +83,7 @@ const Home: React.FC = observer(() => {
     selectedOrder,
     selectedPage,
     searchValue,
+    perPage,
     router,
   ]);
 
@@ -89,7 +94,7 @@ const Home: React.FC = observer(() => {
       url.searchParams.append("category_eq", `${selectedCategory}`);
     }
     url.searchParams.append("page", `${selectedPage + 1}`);
-    url.searchParams.append("limit", "4");
+    url.searchParams.append("limit", `${perPage}`);
     url.searchParams.append("sort", selectedSorting.sortProperty);
     url.searchParams.append("order", selectedOrder);
     if (searchValue) {
@@ -112,6 +117,7 @@ const Home: React.FC = observer(() => {
     selectedPage,
     searchValue,
     fetchPizzas,
+    perPage,
   ]);
 
   return (
@@ -121,6 +127,7 @@ const Home: React.FC = observer(() => {
           <>
             <Categories />
             <Sort />
+            <PerPage />
           </>
         )}
       </div>
