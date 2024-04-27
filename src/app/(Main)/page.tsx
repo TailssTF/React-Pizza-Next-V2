@@ -86,7 +86,7 @@ const Home: React.FC = observer(() => {
   useEffect(() => {
     const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}pizza`);
     if (selectedCategory > 0) {
-      url.searchParams.append("category", `${selectedCategory}`);
+      url.searchParams.append("category_eq", `${selectedCategory}`);
     }
     url.searchParams.append("page", `${selectedPage + 1}`);
     url.searchParams.append("limit", "4");

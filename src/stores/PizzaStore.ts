@@ -29,7 +29,7 @@ class PizzaStore {
       const { data, headers } = yield axios.get<IPizza[]>(String(url));
       this.state = State.DONE;
       this.items = data;
-      this.totalCount = headers["x-total-count"];
+      this.totalCount = headers["x-filtered-count"];
     } catch (error) {
       this.state = State.ERROR;
     }
