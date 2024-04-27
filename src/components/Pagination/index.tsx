@@ -11,7 +11,7 @@ export const Pagination: React.FC = observer(() => {
   } = useStores();
 
   const pageRange = perPage;
-  const pageCount = totalCount / pageRange;
+  const pageCount = Math.ceil(totalCount / pageRange);
 
   return (
     <ReactPaginate
@@ -23,7 +23,7 @@ export const Pagination: React.FC = observer(() => {
       pageRangeDisplayed={pageRange}
       pageCount={pageCount}
       renderOnZeroPageCount={null}
-      forcePage={selectedPage}
+      forcePage={pageCount > 0 ? selectedPage : -1}
     />
   );
 });
