@@ -6,13 +6,20 @@ const getPizza = async (id: string) => {
   return res.json();
 };
 
+const sortParameters = (pizza: IPizza) => {
+  pizza.sizes.sort((a, b) => a - b);
+  pizza.types.sort((a, b) => a - b);
+  return pizza;
+};
+
 const PizzaModal = async ({ params }: { params: { id: string } }) => {
   const pizzaData = getPizza(params.id);
   const pizza: IPizza = await pizzaData;
+  const oPizza = sortParameters(pizza);
 
   return (
     <Modal>
-      <PizzaBlock pizza={pizza} isModal={true} />
+      <PizzaBlock pizza={oPizza} isModal={true} />
     </Modal>
   );
 };
