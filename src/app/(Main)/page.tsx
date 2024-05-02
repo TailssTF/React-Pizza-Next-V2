@@ -34,8 +34,10 @@ const Home: React.FC = observer(() => {
     PizzaStore: { items, state, fetchPizzas },
   } = useStores();
 
-  const pizzaSkeletons = [...new Array(6)].map((_, index) => (
-    <Placeholder key={index} />
+  const pizzaSkeletons = [...new Array(perPage)].map((_, index) => (
+    <div className="pizza-block__wrapper" key={index}>
+      <Placeholder />
+    </div>
   ));
   const pizzas =
     items.length > 0
