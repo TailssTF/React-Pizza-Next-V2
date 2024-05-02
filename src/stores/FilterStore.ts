@@ -8,12 +8,21 @@ export interface ISorting {
 
 type Order = "desc" | "asc";
 
-export interface IParameters {
+export interface IStringParameters {
   category: string;
   sortBy: string;
   order: string;
   page: string;
   limit: string;
+  search?: string;
+}
+
+export interface IParameters {
+  category: number;
+  page: number;
+  limit: number;
+  sortBy: "rating" | "title" | "price";
+  order: Order;
   search?: string;
 }
 
@@ -54,7 +63,7 @@ class FilterStore {
     this.perPage = value;
   };
 
-  setFilters = (params: IParameters) => {
+  setFilters = (params: IStringParameters) => {
     const sortBy: ISorting =
       sortList.find((param) => param.sortProperty === params.sortBy) ||
       defaultSorting;

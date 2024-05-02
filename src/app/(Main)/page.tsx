@@ -14,7 +14,7 @@ import {
   Pagination,
   PerPage,
 } from "@/components";
-import { IParameters } from "@/stores/FilterStore";
+import { IParameters, IStringParameters } from "@/stores/FilterStore";
 import { State } from "@/stores/PizzaStore";
 
 const Home: React.FC = observer(() => {
@@ -52,13 +52,17 @@ const Home: React.FC = observer(() => {
   useEffect(() => {
     if (window.location.search) {
       const paramsQs = qs.parse(window.location.search.substring(1));
-      const params: IParameters = {
+      const params: IStringParameters = {
         category: String(paramsQs.category),
         sortBy: String(paramsQs.sortBy),
         limit: String(paramsQs.limit),
         order: String(paramsQs.order),
         page: String(paramsQs.page),
       };
+
+      if (paramsQs.search) {
+        params.search = String(paramsQs.search);
+      }
 
       setFilters(params);
       isSearch.current = true;
@@ -68,13 +72,17 @@ const Home: React.FC = observer(() => {
   // Запись параметров в поисковую строку
   useEffect(() => {
     if (isMounted.current) {
-      const queryString = qs.stringify({
+      const params: IParameters = {
         category: selectedCategory,
         page: selectedPage,
         limit: perPage,
         sortBy: selectedSorting.sortProperty,
         order: selectedOrder,
-      });
+      };
+      if (searchValue.length) {
+        params.search = searchValue;
+      }
+      const queryString = qs.stringify(params);
 
       router.push(`?${queryString}`);
     }

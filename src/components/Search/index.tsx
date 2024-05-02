@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./Search.module.scss";
 import { useStores } from "../../Store-context";
 import debounce from "lodash.debounce";
@@ -7,7 +7,7 @@ import { observer } from "mobx-react-lite";
 
 export const Search: React.FC = observer(() => {
   const {
-    FilterStore: { setSearchValue, setSelectedCategory },
+    FilterStore: { searchValue, setSearchValue, setSelectedCategory },
   } = useStores();
   const [inputValue, setInputValue] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -32,6 +32,10 @@ export const Search: React.FC = observer(() => {
     setSearchValue("");
     inputRef.current?.focus();
   };
+
+  useEffect(() => {
+    setInputValue(searchValue);
+  }, [searchValue]);
 
   return (
     <div className={styles.root}>
