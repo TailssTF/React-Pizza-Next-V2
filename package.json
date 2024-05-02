@@ -19,6 +19,7 @@
     "react": "^18",
     "react-content-loader": "^7.0.0",
     "react-dom": "^18",
+    "react-loader-spinner": "^6.1.6",
     "react-paginate": "^8.2.0",
     "react-password-checklist": "^1.5.1",
     "sass": "^1.75.0"
