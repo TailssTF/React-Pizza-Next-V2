@@ -1,45 +1,34 @@
 import NextAuth, { NextAuthConfig } from "next-auth";
 import "next-auth/jwt";
-// import EmailProvider from "next-auth/providers/email";
 import GitHub from "next-auth/providers/github";
-import Google from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
+import axios from "axios";
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
-  providers: [GitHub],
+const xanoUrl = process.env.XANO_BASE_URL;
+
+const credentialsConfig = CredentialsProvider({
+  name: "Credentials",
+  credentials: {
+    email: {
+      label: "Email",
+      type: "email",
+    },
+    password: {
+      label: "Пароль",
+      type: "password",
+    },
+  },
+  async authorize(credentials) {
+    const user = await axios.post(`${xanoUrl}/auth/login`, credentials);
+
+    if (!user) {
+      throw new Error("Ошибка авторизации");
+    }
+
+    return user.data;
+  },
 });
 
-// export const config: NextAuthConfig = {
-//   providers: [
-//     // EmailProvider({
-//     //   server: process.env.MAIL_SERVER,
-//     //   from: "NextAuth.js <no-reply@example.com",
-//     // }),
-//     GitHub,
-//     Google,
-//   ],
-//   basePath: "/api/auth",
-//   callbacks: {
-//     jwt({ token, trigger, session }) {
-//       if (trigger === "update") token.name = session.user.name;
-//       return token;
-//     },
-//     async session({ session, token }) {
-//       session.accessToken = token.accessToken;
-//       return session;
-//     },
-//   },
-// };
-
-// export const { handlers, auth, signIn, signOut } = NextAuth(config);
-
-// declare module "next-auth" {
-//   interface Session {
-//     accessToken?: string;
-//   }
-// }
-
-// declare module "next-auth/jwt" {
-//   interface JWT {
-//     accessToken?: string;
-//   }
-// }
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  providers: [GitHub, credentialsConfig],
+});

@@ -5,6 +5,7 @@ import { observer } from "mobx-react-lite";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import PasswordChecklist from "react-password-checklist";
+import { registerUser } from "@/api/authActions";
 
 const Register: React.FC = observer(() => {
   const {
@@ -19,6 +20,7 @@ const Register: React.FC = observer(() => {
     event.preventDefault();
     if (email !== "" && password !== "" && password == passwordAgain) {
       signIn(email);
+      registerUser({ email, password });
 
       router.push(fromPath);
       localStorage.setItem("isAuth", "true");
