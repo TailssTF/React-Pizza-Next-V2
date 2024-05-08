@@ -8,6 +8,8 @@ import Image from "next/image";
 import pizzaLogoSvg from "@/assets/img/pizza-logo.svg";
 import { Search } from "./";
 import { useStores } from "../Store-context";
+import { SignIn, SignOut } from "./auth-components";
+import { useSession } from "next-auth/react";
 
 export const Header: React.FC = observer(() => {
   const {
@@ -17,6 +19,7 @@ export const Header: React.FC = observer(() => {
   const isMounted = useRef(false);
   const router = useRouter();
   const pathName = usePathname();
+  const session = useSession();
 
   // Сохранение состояния авторизации
   useEffect(() => {
@@ -127,6 +130,14 @@ export const Header: React.FC = observer(() => {
                   ></path>
                 </svg>
               </button>
+            )}
+            {session && session.data ? (
+              <div className="ml-2 flex flex-row items-center">
+                <p>{session.data?.user?.name}</p>
+                <SignOut />
+              </div>
+            ) : (
+              <SignIn />
             )}
           </div>
         </div>
