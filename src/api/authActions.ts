@@ -10,8 +10,9 @@ interface IUser {
 }
 
 export async function registerUser(user: IUser) {
-  return await axios.post(`${xanoUrl}/auth/signup`, {
+  const { data } = await axios.post(`${xanoUrl}/auth/signup`, {
     email: user.email,
     password: await bcrypt.hash(user.password, 10),
   });
+  return JSON.stringify(data);
 }
