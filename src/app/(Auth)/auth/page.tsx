@@ -1,14 +1,12 @@
 "use client";
-import { useStores } from "@/Store-context";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { useAuthStore } from "@/stores/AuthStore";
 
 const Auth: React.FC = observer(() => {
-  const {
-    AuthStore: { signIn, fromPath },
-  } = useStores();
+  const { signIn, fromPath } = useAuthStore();
   const router = useRouter();
   const [input, setInput] = useState({
     email: "",

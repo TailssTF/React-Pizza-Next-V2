@@ -1,16 +1,14 @@
 "use client";
 import Link from "next/link";
-import { useStores } from "@/Store-context";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import PasswordChecklist from "react-password-checklist";
 import { registerUser } from "@/api/authActions";
+import { useAuthStore } from "@/stores/AuthStore";
 
 const Register: React.FC = observer(() => {
-  const {
-    AuthStore: { signIn, fromPath },
-  } = useStores();
+  const { signIn, fromPath } = useAuthStore();
   const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
