@@ -1,3 +1,4 @@
+"use client";
 import ReactPaginate from "react-paginate";
 
 import styles from "./Pagination.module.scss";
@@ -5,7 +6,7 @@ import { observer } from "mobx-react-lite";
 import { useFilterStore } from "@/stores/FilterStore";
 import { usePizzaStore } from "@/stores/PizzaStore";
 
-export const Pagination: React.FC = observer(() => {
+export const Pagination = observer(() => {
   const { selectedPage, setSelectedPage, perPage } = useFilterStore();
   const { totalCount } = usePizzaStore();
 

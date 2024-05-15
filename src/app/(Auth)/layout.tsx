@@ -1,4 +1,3 @@
-"use client";
 import Link from "next/link";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {

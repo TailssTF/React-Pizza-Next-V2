@@ -1,3 +1,4 @@
+"use client";
 import { observer } from "mobx-react-lite";
 import { IPizzaInCart, pizzaType } from "@/stores/CartStore/interfaces";
 import { useCartStore } from "@/stores/CartStore";

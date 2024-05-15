@@ -1,4 +1,3 @@
-"use client";
 import { Suspense } from "react";
 import { Header } from "@/components";
 import { Session } from "next-auth";
