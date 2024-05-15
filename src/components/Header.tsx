@@ -6,15 +6,13 @@ import Image from "next/image";
 
 import pizzaLogoSvg from "@/assets/img/pizza-logo.svg";
 import { Search } from "./";
-import { useStores } from "../Store-context";
 import { SignIn, SignOut } from "./auth-components";
 import { useSession } from "next-auth/react";
 import { useAuthStore } from "@/stores/AuthStore";
+import { useCartStore } from "@/stores/CartStore";
 
 export const Header: React.FC = observer(() => {
-  const {
-    CartStore: { items, totalPrice, totalItems },
-  } = useStores();
+  const { items, totalPrice, totalItems } = useCartStore();
   const { isAuth, setFromPath, signOut } = useAuthStore();
   const isMounted = useRef(false);
   const router = useRouter();

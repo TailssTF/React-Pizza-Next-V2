@@ -1,4 +1,4 @@
-import { IPizzaInCart } from "../stores/CartStore";
+import { IPizzaInCart } from "@/stores/CartStore/interfaces";
 
 export const calcTotalItems = (items: IPizzaInCart[]) => {
   return items.reduce((sum, obj) => {

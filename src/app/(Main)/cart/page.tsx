@@ -2,15 +2,13 @@
 import { useEffect, useRef } from "react";
 import { observer } from "mobx-react-lite";
 import { redirect } from "next/navigation";
-import { useStores } from "@/Store-context";
 import { PizzaInCart, CartEmpty } from "@/components";
 import Link from "next/link";
 import { useAuthStore } from "@/stores/AuthStore";
+import { useCartStore } from "@/stores/CartStore";
 
 const Cart: React.FC = observer(() => {
-  const {
-    CartStore: { items, totalItems, totalPrice, clearCart },
-  } = useStores();
+  const { items, totalItems, totalPrice, clearCart } = useCartStore();
   const { isAuth, setFromPath } = useAuthStore();
   const isMounted = useRef(false);
 

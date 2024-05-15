@@ -1,31 +1,15 @@
 import { makeAutoObservable } from "mobx";
-import { getCartFromLS } from "../utils/getCartFromLS";
-import { calcTotalPrice } from "../utils/calcTotalPrice";
-import { calcTotalItems } from "../utils/calcTotalItems";
-
-export interface IPizzaInCart {
-  id: number;
-  title: string;
-  price: number;
-  imageUrl: string;
-  sizes: number[];
-  selectedSize: number;
-  selectedType: number;
-  count?: number;
-}
-
-interface ITypeNames {
-  [keyof: number]: string;
-}
-
-export const pizzaType: ITypeNames = {
-  0: "тонкое",
-  1: "традиционное",
-};
+import { getCartFromLS } from "@/utils/getCartFromLS";
+import { calcTotalPrice } from "@/utils/calcTotalPrice";
+import { calcTotalItems } from "@/utils/calcTotalItems";
+import { ICartStore, IPizzaInCart } from "./interfaces";
+import { TNullable } from "@/types";
+import { useMemo } from "react";
+import { IS_SERVER } from "@/constants";
 
 const { items, totalItems, totalPrice } = getCartFromLS();
 
-class CartStore {
+class CartStore implements ICartStore {
   totalPrice: number = totalPrice;
   totalItems: number = totalItems;
   items: IPizzaInCart[] = items;
@@ -89,4 +73,20 @@ class CartStore {
   };
 }
 
-export default new CartStore();
+let storeUI: ICartStore;
+
+function initializeCartStore(initialData: TNullable<ICartStore> = null) {
+  const _store = storeUI ?? new CartStore();
+
+  if (IS_SERVER) return _store;
+
+  if (!storeUI) storeUI = _store;
+
+  return _store;
+}
+
+function useCartStore(initialData: TNullable<ICartStore> = null) {
+  return useMemo(() => initializeCartStore(initialData), [initialData]);
+}
+
+export { initializeCartStore, useCartStore };

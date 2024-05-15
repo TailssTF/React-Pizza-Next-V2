@@ -1,13 +1,9 @@
 import { observer } from "mobx-react-lite";
-import { IPizzaInCart } from "../../stores/CartStore";
-import { useStores } from "../../Store-context";
-
-import { pizzaType } from "../../stores/CartStore";
+import { IPizzaInCart, pizzaType } from "@/stores/CartStore/interfaces";
+import { useCartStore } from "@/stores/CartStore";
 
 export const PizzaInCart: React.FC<IPizzaInCart> = observer((pizza) => {
-  const {
-    CartStore: { addItem, removeItem, clearItem },
-  } = useStores();
+  const { addItem, removeItem, clearItem } = useCartStore();
 
   return (
     <div className="cart__item">

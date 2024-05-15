@@ -1,11 +1,10 @@
 "use client";
 import { useState } from "react";
 import { observer } from "mobx-react-lite";
-
-import { useStores } from "../../Store-context";
-import { pizzaType } from "../../stores/CartStore";
+import { useCartStore } from "../../stores/CartStore";
 import Link from "next/link";
 import Image from "next/image";
+import { pizzaType } from "@/stores/CartStore/interfaces";
 
 export interface IPizza {
   id: number;
@@ -23,9 +22,7 @@ interface IPizzaBlockParams {
 
 export const PizzaBlock: React.FC<IPizzaBlockParams> = observer(
   (props: { pizza: IPizza; isModal?: boolean }) => {
-    const {
-      CartStore: { addItem },
-    } = useStores();
+    const { addItem } = useCartStore();
 
     const { id, title, price, imageUrl, sizes, types } = props.pizza;
     const isModal = props.isModal;
