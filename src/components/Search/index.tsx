@@ -1,14 +1,11 @@
-"use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./Search.module.scss";
-import { useStores } from "../../Store-context";
 import debounce from "lodash.debounce";
 import { observer } from "mobx-react-lite";
+import { useFilterStore } from "@/stores/FilterStore";
 
 export const Search: React.FC = observer(() => {
-  const {
-    FilterStore: { searchValue, setSearchValue, setSelectedCategory },
-  } = useStores();
+  const { searchValue, setSearchValue, setSelectedCategory } = useFilterStore();
   const [inputValue, setInputValue] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
 

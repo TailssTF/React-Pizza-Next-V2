@@ -1,43 +1,22 @@
 import { makeAutoObservable } from "mobx";
-import { sortList } from "../components/Sort";
-
-export interface ISorting {
-  name: string;
-  sortProperty: "rating" | "title" | "price";
-}
-
-type Order = "desc" | "asc";
-
-export interface IStringParameters {
-  category: string;
-  sortBy: string;
-  order: string;
-  page: string;
-  limit: string;
-  search?: string;
-}
-
-export interface IParameters {
-  category: number;
-  page: number;
-  limit: number;
-  sortBy: "rating" | "title" | "price";
-  order: Order;
-  search?: string;
-}
+import { sortList } from "../../components/Sort";
+import { TNullable } from "@/types";
+import { IFilterStore, ISorting, IStringParameters, Order } from "./interfaces";
+import { IS_SERVER } from "@/constants";
+import { useMemo } from "react";
 
 const defaultSorting: ISorting = {
   name: "популярности",
   sortProperty: "rating",
 };
 
-class FilterStore {
+class FilterStore implements IFilterStore {
   selectedCategory = 0;
   selectedPage = 0;
-  selectedSorting: ISorting = defaultSorting;
+  selectedSorting = defaultSorting;
   selectedOrder: Order = "desc";
-  searchValue: string = "";
-  perPage: number = 4;
+  searchValue = "";
+  perPage = 4;
 
   constructor() {
     makeAutoObservable(this);
@@ -80,4 +59,20 @@ class FilterStore {
   };
 }
 
-export default new FilterStore();
+let storeUI: IFilterStore;
+
+function initializeFilterStore(initialData: TNullable<IFilterStore> = null) {
+  const _store = storeUI ?? new FilterStore();
+
+  if (IS_SERVER) return _store;
+
+  if (!storeUI) storeUI = _store;
+
+  return _store;
+}
+
+function useFilterStore(initialData: TNullable<IFilterStore> = null) {
+  return useMemo(() => initializeFilterStore(initialData), [initialData]);
+}
+
+export { initializeFilterStore, useFilterStore };

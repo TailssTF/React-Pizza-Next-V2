@@ -14,23 +14,27 @@ import {
   Pagination,
   PerPage,
 } from "@/components";
-import { IParameters, IStringParameters } from "@/stores/FilterStore";
+import {
+  IParameters,
+  IStringParameters,
+} from "@/stores/FilterStore/interfaces";
 import { State } from "@/stores/PizzaStore";
+import { useFilterStore } from "@/stores/FilterStore";
 
 const Home: React.FC = observer(() => {
   const isSearch = useRef(false);
   const isMounted = useRef(false);
   const router = useRouter();
   const {
-    FilterStore: {
-      selectedCategory,
-      selectedPage,
-      selectedSorting,
-      selectedOrder,
-      searchValue,
-      setFilters,
-      perPage,
-    },
+    selectedCategory,
+    selectedPage,
+    selectedSorting,
+    selectedOrder,
+    searchValue,
+    setFilters,
+    perPage,
+  } = useFilterStore();
+  const {
     PizzaStore: { items, state, fetchPizzas },
   } = useStores();
 

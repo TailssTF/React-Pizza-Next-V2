@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useRef } from "react";
 import { observer } from "mobx-react-lite";
 import { usePathname, useRouter } from "next/navigation";
@@ -133,7 +132,7 @@ export const Header: React.FC = observer(() => {
             )}
             {session && session.data ? (
               <div className="ml-2 flex flex-row items-center">
-                <p>{session.data?.user?.name}</p>
+                <p>{session.data?.user?.email}</p>
                 <SignOut />
               </div>
             ) : (

@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { useStores } from "../Store-context";
-import { ISorting } from "../stores/FilterStore";
+import { ISorting } from "../stores/FilterStore/interfaces";
 import { observer } from "mobx-react-lite";
+import { useFilterStore } from "@/stores/FilterStore";
 
 export const sortList: ISorting[] = [
   { name: "популярности", sortProperty: "rating" },
@@ -12,13 +12,11 @@ export const sortList: ISorting[] = [
 
 export const Sort: React.FC = observer(() => {
   const {
-    FilterStore: {
-      selectedSorting,
-      setSelectedSorting,
-      selectedOrder,
-      setSelectedOrder,
-    },
-  } = useStores();
+    selectedSorting,
+    setSelectedSorting,
+    selectedOrder,
+    setSelectedOrder,
+  } = useFilterStore();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const sortRef = useRef<HTMLDivElement>(null);
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import { useStores } from "../Store-context";
+import { useFilterStore } from "@/stores/FilterStore";
 
 export const categories = [
   "Все",
@@ -13,9 +13,7 @@ export const categories = [
 
 export const Categories: React.FC = React.memo(
   observer(() => {
-    const {
-      FilterStore: { selectedCategory, setSelectedCategory },
-    } = useStores();
+    const { selectedCategory, setSelectedCategory } = useFilterStore();
 
     return (
       <div className="categories">

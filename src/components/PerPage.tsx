@@ -1,14 +1,11 @@
-"use client";
 import React, { useEffect, useRef, useState } from "react";
-import { useStores } from "../Store-context";
 import { observer } from "mobx-react-lite";
+import { useFilterStore } from "@/stores/FilterStore";
 
 const perPageList = [4, 8, 16, 32, 50];
 
 export const PerPage: React.FC = observer(() => {
-  const {
-    FilterStore: { perPage, setPerPage },
-  } = useStores();
+  const { perPage, setPerPage } = useFilterStore();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const sortRef = useRef<HTMLDivElement>(null);
 
