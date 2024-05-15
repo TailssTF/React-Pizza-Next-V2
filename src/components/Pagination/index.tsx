@@ -1,15 +1,13 @@
 import ReactPaginate from "react-paginate";
 
 import styles from "./Pagination.module.scss";
-import { useStores } from "../../Store-context";
 import { observer } from "mobx-react-lite";
 import { useFilterStore } from "@/stores/FilterStore";
+import { usePizzaStore } from "@/stores/PizzaStore";
 
 export const Pagination: React.FC = observer(() => {
   const { selectedPage, setSelectedPage, perPage } = useFilterStore();
-  const {
-    PizzaStore: { totalCount },
-  } = useStores();
+  const { totalCount } = usePizzaStore();
 
   const pageRange = perPage;
   const pageCount = Math.ceil(totalCount / pageRange);

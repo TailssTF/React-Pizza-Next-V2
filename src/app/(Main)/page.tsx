@@ -2,7 +2,6 @@
 import { useEffect, useRef } from "react";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/navigation";
-import { useStores } from "@/Store-context";
 import qs from "qs";
 
 import {
@@ -18,8 +17,9 @@ import {
   IParameters,
   IStringParameters,
 } from "@/stores/FilterStore/interfaces";
-import { State } from "@/stores/PizzaStore";
+import { State } from "@/stores/PizzaStore/interfaces";
 import { useFilterStore } from "@/stores/FilterStore";
+import { usePizzaStore } from "@/stores/PizzaStore";
 
 const Home: React.FC = observer(() => {
   const isSearch = useRef(false);
@@ -34,9 +34,7 @@ const Home: React.FC = observer(() => {
     setFilters,
     perPage,
   } = useFilterStore();
-  const {
-    PizzaStore: { items, state, fetchPizzas },
-  } = useStores();
+  const { items, state, fetchPizzas } = usePizzaStore();
 
   const pizzaSkeletons = [...new Array(perPage)].map((_, index) => (
     <div className="pizza-block__wrapper" key={index}>
