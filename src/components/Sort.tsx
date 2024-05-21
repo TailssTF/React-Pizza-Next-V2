@@ -1,7 +1,8 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { ISorting } from "../stores/FilterStore/interfaces";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { observer } from "mobx-react-lite";
+import { useFilterStore } from "@/stores/FilterStore";
 
 export const sortList: ISorting[] = [
   { name: "популярности", sortProperty: "rating" },
@@ -9,28 +10,19 @@ export const sortList: ISorting[] = [
   { name: "алфавиту", sortProperty: "title" },
 ];
 
-export const Sort: React.FC = () => {
+export const Sort: React.FC = observer(() => {
+  const {
+    selectedSorting,
+    setSelectedSorting,
+    selectedOrder,
+    setSelectedOrder,
+  } = useFilterStore();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const sortRef = useRef<HTMLDivElement>(null);
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
-  const params = new URLSearchParams(searchParams);
-  const sortBy = params.get("sortBy");
-  const selectedSorting =
-    sortList.find((sort) => sort.sortProperty == sortBy) ?? sortList[0];
-  const selectedOrder = params.get("order");
 
-  const handleChangeSorting = (sorting: ISorting) => {
-    params.set("sortBy", sorting.sortProperty);
+  const onChangeSorting = (sorting: ISorting) => {
+    setSelectedSorting(sorting);
     setIsOpen(false);
-    replace(`${pathname}?${params.toString()}`);
-  };
-
-  const handleChangeOrder = () => {
-    const order = selectedOrder == "desc" ? "asc" : "desc";
-    params.set("order", order);
-    replace(`${pathname}?${params.toString()}`);
   };
 
   useEffect(() => {
@@ -51,7 +43,12 @@ export const Sort: React.FC = () => {
   return (
     <div className="sort" ref={sortRef}>
       <div className="sort__label">
-        <div className="sort__arrow" onClick={handleChangeOrder}>
+        <div
+          className="sort__arrow"
+          onClick={() =>
+            setSelectedOrder(selectedOrder == "desc" ? "asc" : "desc")
+          }
+        >
           {selectedOrder == "desc" ? <>&#128899;</> : <>&#128897;</>}
         </div>
         <b>Сортировка по:</b>
@@ -70,7 +67,7 @@ export const Sort: React.FC = () => {
                     ? "active"
                     : ""
                 }
-                onClick={() => handleChangeSorting(sorting)}
+                onClick={() => onChangeSorting(sorting)}
               >
                 {sorting.name}
               </li>
@@ -80,4 +77,4 @@ export const Sort: React.FC = () => {
       )}
     </div>
   );
-};
+});
