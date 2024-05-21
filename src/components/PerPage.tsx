@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { useQueryParams } from "@/utils/useQueryParams";
 
 const perPageList = [4, 8, 16, 32, 50];
 
@@ -8,15 +9,13 @@ export const PerPage: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const sortRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
   const params = new URLSearchParams(searchParams);
   const perPage = Number(params.get("limit"));
+  const { setQueryParams } = useQueryParams();
 
   const onChangePerPage = (value: number) => {
-    params.set("limit", String(value));
     setIsOpen(false);
-    replace(`${pathname}?${params.toString()}`);
+    setQueryParams({ limit: value });
   };
 
   useEffect(() => {
