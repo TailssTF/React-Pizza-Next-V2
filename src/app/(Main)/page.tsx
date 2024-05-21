@@ -17,13 +17,14 @@ import {
 import { Suspense } from "react";
 
 const transformParams = (params: IStringParameters): IParameters => {
+  const { category, page, limit, sortBy, order, search } = params;
   return {
-    category: Number(params.category) ?? 0,
-    page: Number(params.page) ?? 0,
-    limit: Number(params.limit) ?? 4,
-    sortBy: (params.sortBy as SortType) ?? "rating",
-    order: (params.order as Order) ?? "desc",
-    search: params.search,
+    category: Number(category ?? 0),
+    page: Number(page ?? 0),
+    limit: Number(limit ?? 4),
+    sortBy: (sortBy as SortType) ?? "rating",
+    order: (order as Order) ?? "desc",
+    search: search,
   };
 };
 
