@@ -2,13 +2,20 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./Search.module.scss";
 import debounce from "lodash.debounce";
-import { observer } from "mobx-react-lite";
-import { useFilterStore } from "@/stores/FilterStore";
+import { useSearchParams } from "next/navigation";
+import { useQueryParams } from "@/utils/useQueryParams";
 
-export const Search: React.FC = observer(() => {
-  const { searchValue, setSearchValue, setSelectedCategory } = useFilterStore();
+export const Search: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
+  const searchValue = params.get("search");
+  const { setQueryParams } = useQueryParams();
+
+  const handleSearch = (value: string) => {
+    setQueryParams({ search: value });
+  };
 
   const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -19,20 +26,19 @@ export const Search: React.FC = observer(() => {
 
   const onSearch = useCallback(
     debounce((value) => {
-      setSelectedCategory(0);
-      setSearchValue(value);
+      handleSearch(value);
     }, 250),
     []
   );
 
   const onSearchClear = () => {
     setInputValue("");
-    setSearchValue("");
+    handleSearch("");
     inputRef.current?.focus();
   };
 
   useEffect(() => {
-    setInputValue(searchValue);
+    setInputValue(searchValue ?? "");
   }, [searchValue]);
 
   return (
@@ -70,4 +76,4 @@ export const Search: React.FC = observer(() => {
       )}
     </div>
   );
-});
+};
