@@ -1,22 +1,18 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { observer } from "mobx-react-lite";
+import { useFilterStore } from "@/stores/FilterStore";
 
 const perPageList = [4, 8, 16, 32, 50];
 
-export const PerPage: React.FC = () => {
+export const PerPage: React.FC = observer(() => {
+  const { perPage, setPerPage } = useFilterStore();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const sortRef = useRef<HTMLDivElement>(null);
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
-  const params = new URLSearchParams(searchParams);
-  const perPage = Number(params.get("limit"));
 
   const onChangePerPage = (value: number) => {
-    params.set("limit", String(value));
+    setPerPage(value);
     setIsOpen(false);
-    replace(`${pathname}?${params.toString()}`);
   };
 
   useEffect(() => {
@@ -59,4 +55,4 @@ export const PerPage: React.FC = () => {
       )}
     </div>
   );
-};
+});
