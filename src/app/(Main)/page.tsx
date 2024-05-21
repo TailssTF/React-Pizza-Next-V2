@@ -49,7 +49,9 @@ const Home = async ({ searchParams }: { searchParams: IStringParameters }) => {
     url.searchParams.append("search", search);
   }
 
-  const items = await fetch(url).then((res) => res.json());
+  const res = await fetch(url);
+  const items = await res.json();
+  const totalItems = Number(res.headers.get("x-filtered-count"));
 
   const pizzas =
     items.length > 0
@@ -75,7 +77,7 @@ const Home = async ({ searchParams }: { searchParams: IStringParameters }) => {
       <div className="content__items">
         <Suspense fallback={pizzaSkeletons}>{pizzas}</Suspense>
       </div>
-      <Pagination />
+      <Pagination totalCount={totalItems} />
     </div>
   );
 };
