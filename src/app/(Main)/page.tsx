@@ -1,6 +1,5 @@
 import {
   Categories,
-  categories,
   Sort,
   PizzaBlock,
   Placeholder,
@@ -8,6 +7,7 @@ import {
   PerPage,
   IPizza,
 } from "@/components";
+import { allCategories } from "@/constants";
 import {
   IParameters,
   IStringParameters,
@@ -41,7 +41,7 @@ const Home = async ({ searchParams }: { searchParams: IStringParameters }) => {
   if (category > 0) {
     url.searchParams.append("category_eq", `${category}`);
   }
-  url.searchParams.append("page", `${page + 1}`);
+  url.searchParams.append("page", `${page}`);
   url.searchParams.append("limit", `${limit}`);
   url.searchParams.append("sort", sortBy);
   url.searchParams.append("order", order);
@@ -73,7 +73,7 @@ const Home = async ({ searchParams }: { searchParams: IStringParameters }) => {
           </>
         }
       </div>
-      {/* <h2 className="content__title">{categories[category]} пиццы</h2> */}
+      <h2 className="content__title">{allCategories[category]} пиццы</h2>
       <div className="content__items">
         <Suspense fallback={pizzaSkeletons}>{pizzas}</Suspense>
       </div>

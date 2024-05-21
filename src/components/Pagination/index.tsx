@@ -13,8 +13,8 @@ export const Pagination = ({ totalCount }: { totalCount: number }) => {
   const pageRange = Number(params.get("limit"));
   const pageCount = Math.ceil(totalCount / pageRange);
 
-  const handleChangeCategory = (index: number) => {
-    params.set("limit", String(index));
+  const handleChangePage = (index: number) => {
+    params.set("page", String(index));
     replace(`${pathname}?${params.toString()}`);
   };
 
@@ -25,8 +25,8 @@ export const Pagination = ({ totalCount }: { totalCount: number }) => {
         breakLabel="..."
         previousLabel="<"
         nextLabel=">"
-        onPageChange={(event) => handleChangeCategory(event.selected)}
-        pageRangeDisplayed={pageRange}
+        onPageChange={(event) => handleChangePage(event.selected)}
+        pageRangeDisplayed={3}
         pageCount={pageCount}
         renderOnZeroPageCount={null}
         forcePage={pageCount > 0 ? selectedPage : -1}
