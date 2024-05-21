@@ -1,11 +1,9 @@
 export interface ISorting {
   name: string;
-  sortProperty: SortType;
+  sortProperty: "rating" | "title" | "price";
 }
 
 export type Order = "desc" | "asc";
-
-export type SortType = "rating" | "title" | "price";
 
 export interface IStringParameters {
   category: string;
@@ -20,7 +18,7 @@ export interface IParameters {
   category: number;
   page: number;
   limit: number;
-  sortBy: SortType;
+  sortBy: "rating" | "title" | "price";
   order: Order;
   search?: string;
 }
