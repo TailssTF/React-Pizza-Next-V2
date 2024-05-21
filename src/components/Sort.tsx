@@ -1,7 +1,8 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { ISorting } from "../stores/FilterStore/interfaces";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { useQueryParams } from "@/utils/useQueryParams";
 
 export const sortList: ISorting[] = [
   { name: "популярности", sortProperty: "rating" },
@@ -13,24 +14,21 @@ export const Sort: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const sortRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
   const params = new URLSearchParams(searchParams);
   const sortBy = params.get("sortBy");
   const selectedSorting =
     sortList.find((sort) => sort.sortProperty == sortBy) ?? sortList[0];
   const selectedOrder = params.get("order");
+  const { setQueryParams } = useQueryParams();
 
   const handleChangeSorting = (sorting: ISorting) => {
-    params.set("sortBy", sorting.sortProperty);
     setIsOpen(false);
-    replace(`${pathname}?${params.toString()}`);
+    setQueryParams({ sortBy: sorting.sortProperty });
   };
 
   const handleChangeOrder = () => {
     const order = selectedOrder == "desc" ? "asc" : "desc";
-    params.set("order", order);
-    replace(`${pathname}?${params.toString()}`);
+    setQueryParams({ order: order });
   };
 
   useEffect(() => {
