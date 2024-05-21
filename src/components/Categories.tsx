@@ -1,7 +1,6 @@
 "use client";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import React from "react";
-import { observer } from "mobx-react-lite";
-import { useFilterStore } from "@/stores/FilterStore";
 
 export const categories = [
   "Все",
@@ -12,24 +11,31 @@ export const categories = [
   "Закрытые",
 ];
 
-export const Categories: React.FC = React.memo(
-  observer(() => {
-    const { selectedCategory, setSelectedCategory } = useFilterStore();
+export const Categories = () => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+  const params = new URLSearchParams(searchParams);
+  const category = Number(params.get("category"));
 
-    return (
-      <div className="categories">
-        <ul>
-          {categories.map((name: string, index: number) => (
-            <li
-              key={index}
-              onClick={() => setSelectedCategory(index)}
-              className={selectedCategory == index ? "active" : ""}
-            >
-              {name}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  })
-);
+  const handleChangeCategory = (index: number) => {
+    params.set("category", String(index));
+    replace(`${pathname}?${params.toString()}`);
+  };
+
+  return (
+    <div className="categories">
+      <ul>
+        {categories.map((name: string, index: number) => (
+          <li
+            key={index}
+            onClick={() => handleChangeCategory(index)}
+            className={category == index ? "active" : ""}
+          >
+            {name}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
