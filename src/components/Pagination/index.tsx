@@ -1,21 +1,20 @@
 "use client";
 import ReactPaginate from "react-paginate";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 import styles from "./Pagination.module.scss";
+import { useQueryParams } from "@/utils/useQueryParams";
 
 export const Pagination = ({ totalCount }: { totalCount: number }) => {
   const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
   const params = new URLSearchParams(searchParams);
   const selectedPage = Number(params.get("page"));
   const pageRange = Number(params.get("limit"));
   const pageCount = Math.ceil(totalCount / pageRange);
+  const { setQueryParams } = useQueryParams();
 
   const handleChangePage = (index: number) => {
-    params.set("page", String(index));
-    replace(`${pathname}?${params.toString()}`);
+    setQueryParams({ page: index });
   };
 
   return (
