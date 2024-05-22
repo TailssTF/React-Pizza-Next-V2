@@ -12,24 +12,22 @@ export const categories = [
   "Закрытые",
 ];
 
-export const Categories: React.FC = React.memo(
-  observer(() => {
-    const { selectedCategory, setSelectedCategory } = useFilterStore();
+export const Categories: React.FC = observer(() => {
+  const { selectedCategory, setSelectedCategory } = useFilterStore();
 
-    return (
-      <div className="categories">
-        <ul>
-          {categories.map((name: string, index: number) => (
-            <li
-              key={index}
-              onClick={() => setSelectedCategory(index)}
-              className={selectedCategory == index ? "active" : ""}
-            >
-              {name}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  })
-);
+  return (
+    <div className="categories">
+      <ul>
+        {categories.map((name: string, index: number) => (
+          <li
+            key={index}
+            onClick={() => setSelectedCategory(index)}
+            className={selectedCategory == index ? "active" : ""}
+          >
+            {name}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+});
