@@ -17,11 +17,9 @@ const MainLayout = ({
       <div className="wrapper">
         <Header />
         <main className="content">
-          <Suspense>
-            <div id="modal-root" />
-            {children}
-            {modal}
-          </Suspense>
+          <div id="modal-root" />
+          {children}
+          {modal}
         </main>
       </div>
     </SessionProvider>

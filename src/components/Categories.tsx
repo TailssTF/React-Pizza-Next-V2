@@ -2,31 +2,38 @@
 import { allCategories } from "@/constants";
 import { useQueryParams } from "@/utils/useQueryParams";
 import { useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useTransition } from "react";
+import Loader from "./Loader";
 
 export const Categories = () => {
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
   const category = Number(params.get("category") ?? 0);
   const { setQueryParams } = useQueryParams();
+  const [isPending, startTransition] = useTransition();
 
   const handleChangeCategory = (index: number) => {
-    setQueryParams({ category: index, page: 0 });
+    startTransition(() => {
+      setQueryParams({ category: index, page: 0 });
+    });
   };
 
   return (
-    <div className="categories">
-      <ul>
-        {allCategories.map((name: string, index: number) => (
-          <li
-            key={index}
-            onClick={() => handleChangeCategory(index)}
-            className={category == index ? "active" : ""}
-          >
-            {name}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      {isPending && <Loader />}
+      <div className="categories">
+        <ul>
+          {allCategories.map((name: string, index: number) => (
+            <li
+              key={index}
+              onClick={() => handleChangeCategory(index)}
+              className={category == index ? "active" : ""}
+            >
+              {name}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
   );
 };

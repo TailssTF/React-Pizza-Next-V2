@@ -1,7 +1,8 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import { useQueryParams } from "@/utils/useQueryParams";
+import Loader from "./Loader";
 
 const perPageList = [4, 8, 16, 32, 50];
 
@@ -12,10 +13,13 @@ export const PerPage: React.FC = () => {
   const params = new URLSearchParams(searchParams);
   const perPage = Number(params.get("limit") ?? 4);
   const { setQueryParams } = useQueryParams();
+  const [isPending, startTransition] = useTransition();
 
   const onChangePerPage = (value: number) => {
     setIsOpen(false);
-    setQueryParams({ limit: value });
+    startTransition(() => {
+      setQueryParams({ limit: value });
+    });
   };
 
   useEffect(() => {
@@ -34,28 +38,31 @@ export const PerPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="sort" ref={sortRef}>
-      <div className="sort__label">
-        <b>На странице:</b>
-        <span className="sort__button" onClick={() => setIsOpen(!isOpen)}>
-          {perPage}
-        </span>
-      </div>
-      {isOpen && (
-        <div className="sort__popup">
-          <ul>
-            {perPageList.map((item, i) => (
-              <li
-                key={i}
-                className={perPage == item ? "active" : ""}
-                onClick={() => onChangePerPage(item)}
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
+    <>
+      {isPending && <Loader />}
+      <div className="sort" ref={sortRef}>
+        <div className="sort__label">
+          <b>На странице:</b>
+          <span className="sort__button" onClick={() => setIsOpen(!isOpen)}>
+            {perPage}
+          </span>
         </div>
-      )}
-    </div>
+        {isOpen && (
+          <div className="sort__popup">
+            <ul>
+              {perPageList.map((item, i) => (
+                <li
+                  key={i}
+                  className={perPage == item ? "active" : ""}
+                  onClick={() => onChangePerPage(item)}
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </>
   );
 };

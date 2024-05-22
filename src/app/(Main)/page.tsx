@@ -7,7 +7,6 @@ import {
   PerPage,
   IPizza,
 } from "@/components";
-import Loader from "@/components/Loader";
 import { allCategories } from "@/constants";
 import {
   IParameters,
@@ -51,7 +50,7 @@ const Home = async ({ searchParams }: { searchParams: IStringParameters }) => {
     url.searchParams.append("search", search);
   }
 
-  const res = await fetch(url);
+  const res = await fetch(url, { cache: "no-store" });
   const items = await res.json();
   const totalItems = Number(res.headers.get("x-filtered-count"));
 

@@ -1,8 +1,9 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useTransition } from "react";
 import { ISorting } from "../stores/FilterStore/interfaces";
 import { useSearchParams } from "next/navigation";
 import { useQueryParams } from "@/utils/useQueryParams";
+import Loader from "./Loader";
 
 export const sortList: ISorting[] = [
   { name: "популярности", sortProperty: "rating" },
@@ -20,15 +21,20 @@ export const Sort: React.FC = () => {
     sortList.find((sort) => sort.sortProperty == sortBy) ?? sortList[0];
   const selectedOrder = params.get("order") ?? "desc";
   const { setQueryParams } = useQueryParams();
+  const [isPending, startTransition] = useTransition();
 
   const handleChangeSorting = (sorting: ISorting) => {
     setIsOpen(false);
-    setQueryParams({ sortBy: sorting.sortProperty });
+    startTransition(() => {
+      setQueryParams({ sortBy: sorting.sortProperty });
+    });
   };
 
   const handleChangeOrder = () => {
     const order = selectedOrder == "desc" ? "asc" : "desc";
-    setQueryParams({ order: order });
+    startTransition(() => {
+      setQueryParams({ order: order });
+    });
   };
 
   useEffect(() => {
@@ -47,35 +53,38 @@ export const Sort: React.FC = () => {
   }, []);
 
   return (
-    <div className="sort" ref={sortRef}>
-      <div className="sort__label">
-        <div className="sort__arrow" onClick={handleChangeOrder}>
-          {selectedOrder == "desc" ? <>&#128899;</> : <>&#128897;</>}
+    <>
+      {isPending && <Loader />}
+      <div className="sort" ref={sortRef}>
+        <div className="sort__label">
+          <div className="sort__arrow" onClick={handleChangeOrder}>
+            {selectedOrder == "desc" ? <>&#128899;</> : <>&#128897;</>}
+          </div>
+          <b>Сортировка по:</b>
+          <span className="sort__button" onClick={() => setIsOpen(!isOpen)}>
+            {selectedSorting.name}
+          </span>
         </div>
-        <b>Сортировка по:</b>
-        <span className="sort__button" onClick={() => setIsOpen(!isOpen)}>
-          {selectedSorting.name}
-        </span>
+        {isOpen && (
+          <div className="sort__popup">
+            <ul>
+              {sortList.map((sorting, i) => (
+                <li
+                  key={i}
+                  className={
+                    selectedSorting.sortProperty == sorting.sortProperty
+                      ? "active"
+                      : ""
+                  }
+                  onClick={() => handleChangeSorting(sorting)}
+                >
+                  {sorting.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
-      {isOpen && (
-        <div className="sort__popup">
-          <ul>
-            {sortList.map((sorting, i) => (
-              <li
-                key={i}
-                className={
-                  selectedSorting.sortProperty == sorting.sortProperty
-                    ? "active"
-                    : ""
-                }
-                onClick={() => handleChangeSorting(sorting)}
-              >
-                {sorting.name}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
+    </>
   );
 };
