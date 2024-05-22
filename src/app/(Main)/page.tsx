@@ -7,6 +7,7 @@ import {
   PerPage,
   IPizza,
 } from "@/components";
+import Loader from "@/components/Loader";
 import { allCategories } from "@/constants";
 import {
   IParameters,

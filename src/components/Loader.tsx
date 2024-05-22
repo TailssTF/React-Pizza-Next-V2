@@ -1,9 +1,9 @@
-import { FadeLoader } from "react-spinners";
+import FadeSpinner from "./FadeSpinner";
 
 const Loader = () => {
   return (
     <div className="modal-backdrop">
-      <FadeLoader color="#fe5f1e" />
+      <FadeSpinner />
     </div>
   );
 };
