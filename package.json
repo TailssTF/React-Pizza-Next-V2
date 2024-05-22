@@ -32,6 +32,7 @@
     "react-loader-spinner": "^6.1.6",
     "react-paginate": "^8.2.0",
     "react-password-checklist": "^1.5.1",
+    "react-spinners": "^0.13.8",
     "sass": "^1.75.0"
   },
   "devDependencies": {
