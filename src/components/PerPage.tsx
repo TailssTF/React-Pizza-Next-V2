@@ -10,7 +10,7 @@ export const PerPage: React.FC = () => {
   const sortRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
-  const perPage = Number(params.get("limit"));
+  const perPage = Number(params.get("limit") ?? 4);
   const { setQueryParams } = useQueryParams();
 
   const onChangePerPage = (value: number) => {

@@ -7,7 +7,7 @@ import React from "react";
 export const Categories = () => {
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
-  const category = Number(params.get("category"));
+  const category = Number(params.get("category") ?? 0);
   const { setQueryParams } = useQueryParams();
 
   const handleChangeCategory = (index: number) => {

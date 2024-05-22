@@ -1,34 +1,15 @@
-"use client";
-import axios from "axios";
-import { observer } from "mobx-react-lite";
-import { useEffect, useState } from "react";
-
 import { IPizza } from "@/components/PizzaBlock";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
-const PizzaDetails = observer(({ params }: { params: { id: string } }) => {
+const PizzaDetails = async ({ params }: { params: { id: string } }) => {
   const id = params.id;
-  const [pizza, setPizza] = useState<IPizza>();
-  const router = useRouter();
 
-  useEffect(() => {
-    const getPizza = async (id: string) => {
-      try {
-        const { data } = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}pizza/` + id
-        );
-        setPizza(data);
-      } catch (error) {
-        alert("Пицца не найдена");
-        router.push("/");
-      }
-    };
-    if (id) {
-      getPizza(id);
-    }
-  }, [id, router]);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}pizza/` + id);
+  if (!res.ok) redirect("/");
+
+  const pizza: IPizza = await res.json();
 
   return (
     <div className="container">
@@ -62,6 +43,6 @@ const PizzaDetails = observer(({ params }: { params: { id: string } }) => {
       )}
     </div>
   );
-});
+};
 
 export default PizzaDetails;

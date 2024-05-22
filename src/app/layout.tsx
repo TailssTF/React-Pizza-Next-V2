@@ -2,6 +2,7 @@ import { Nunito } from "next/font/google";
 import type { Metadata } from "next";
 import "./globals.css";
 import "../scss/app.scss";
+import { Suspense } from "react";
 
 const nunito = Nunito({ subsets: ["cyrillic", "latin"] });
 
@@ -17,7 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={nunito.className}>{children}</body>
+      <body className={nunito.className}>
+        <Suspense>{children}</Suspense>
+      </body>
     </html>
   );
 }

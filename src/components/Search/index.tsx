@@ -10,7 +10,7 @@ export const Search: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
-  const searchValue = params.get("search");
+  const searchValue = params.get("search") ?? "";
   const { setQueryParams } = useQueryParams();
 
   const handleSearch = (value: string) => {

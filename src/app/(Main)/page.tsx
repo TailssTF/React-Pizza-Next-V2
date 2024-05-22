@@ -24,7 +24,7 @@ const transformParams = (params: IStringParameters): IParameters => {
     limit: Number(limit ?? 4),
     sortBy: (sortBy as SortType) ?? "rating",
     order: (order as Order) ?? "desc",
-    search: search,
+    search: search ?? "",
   };
 };
 

@@ -8,8 +8,8 @@ import { useQueryParams } from "@/utils/useQueryParams";
 export const Pagination = ({ totalCount }: { totalCount: number }) => {
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
-  const selectedPage = Number(params.get("page"));
-  const pageRange = Number(params.get("limit"));
+  const selectedPage = Number(params.get("page") ?? 0);
+  const pageRange = Number(params.get("limit") ?? 4);
   const pageCount = Math.ceil(totalCount / pageRange);
   const { setQueryParams } = useQueryParams();
 

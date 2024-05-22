@@ -15,10 +15,10 @@ export const Sort: React.FC = () => {
   const sortRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
-  const sortBy = params.get("sortBy");
+  const sortBy = params.get("sortBy") ?? "rating";
   const selectedSorting =
     sortList.find((sort) => sort.sortProperty == sortBy) ?? sortList[0];
-  const selectedOrder = params.get("order");
+  const selectedOrder = params.get("order") ?? "desc";
   const { setQueryParams } = useQueryParams();
 
   const handleChangeSorting = (sorting: ISorting) => {
