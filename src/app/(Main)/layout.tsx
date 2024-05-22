@@ -17,7 +17,7 @@ const MainLayout = ({
       <div className="wrapper">
         <Header />
         <main className="content">
-          <Suspense fallback={<div>Идет загрузка...</div>}>
+          <Suspense>
             <div id="modal-root" />
             {children}
             {modal}
