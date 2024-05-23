@@ -4,6 +4,8 @@ import { useSearchParams } from "next/navigation";
 
 import styles from "./Pagination.module.scss";
 import { useQueryParams } from "@/utils/useQueryParams";
+import { useTransition } from "react";
+import Loader from "../Loader";
 
 export const Pagination = ({ totalCount }: { totalCount: number }) => {
   const searchParams = useSearchParams();
@@ -12,13 +14,17 @@ export const Pagination = ({ totalCount }: { totalCount: number }) => {
   const pageRange = Number(params.get("limit") ?? 4);
   const pageCount = Math.ceil(totalCount / pageRange);
   const { setQueryParams } = useQueryParams();
+  const [isPending, startTransition] = useTransition();
 
   const handleChangePage = (index: number) => {
-    setQueryParams({ page: index });
+    startTransition(() => {
+      setQueryParams({ page: index });
+    });
   };
 
   return (
     <div>
+      {isPending && <Loader />}
       <ReactPaginate
         className={styles.root}
         breakLabel="..."

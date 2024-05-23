@@ -42,7 +42,7 @@ const Home = async ({ searchParams }: { searchParams: IStringParameters }) => {
   if (category > 0) {
     url.searchParams.append("category_eq", `${category}`);
   }
-  url.searchParams.append("page", `${page}`);
+  url.searchParams.append("page", `${page + 1}`);
   url.searchParams.append("limit", `${limit}`);
   url.searchParams.append("sort", sortBy);
   url.searchParams.append("order", order);
