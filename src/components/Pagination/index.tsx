@@ -31,7 +31,7 @@ export const Pagination = ({ totalCount }: { totalCount: number }) => {
         previousLabel="<"
         nextLabel=">"
         onPageChange={(event) => handleChangePage(event.selected)}
-        pageRangeDisplayed={3}
+        pageRangeDisplayed={2}
         pageCount={pageCount}
         renderOnZeroPageCount={null}
         forcePage={pageCount > 0 ? selectedPage : -1}

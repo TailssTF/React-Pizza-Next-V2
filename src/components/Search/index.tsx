@@ -5,6 +5,7 @@ import debounce from "lodash.debounce";
 import { useSearchParams } from "next/navigation";
 import { useQueryParams } from "@/utils/useQueryParams";
 import Loader from "../Loader";
+import { createPortal } from "react-dom";
 
 export const Search: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>("");
@@ -47,7 +48,8 @@ export const Search: React.FC = () => {
 
   return (
     <>
-      {isPending && <Loader />}
+      {isPending &&
+        createPortal(<Loader />, document.getElementById("modal-root")!)}
       <div className={styles.root}>
         <svg
           className={styles.icon}
