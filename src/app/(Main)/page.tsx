@@ -75,9 +75,13 @@ const Home = async ({ searchParams }: { searchParams: IStringParameters }) => {
         }
       </div>
       <h2 className="content__title">{allCategories[category]} пиццы</h2>
-      <div className="content__items">
-        <Suspense fallback={pizzaSkeletons}>{pizzas}</Suspense>
-      </div>
+      {pizzas.length ? (
+        <div className="content__items">
+          <Suspense fallback={pizzaSkeletons}>{pizzas}</Suspense>
+        </div>
+      ) : (
+        <h2 className=" text-center w-full">Ничего не найдено</h2>
+      )}
       <Pagination totalCount={totalItems} />
     </div>
   );
