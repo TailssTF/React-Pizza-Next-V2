@@ -6,8 +6,12 @@ import axios from "axios";
 
 const xanoUrl = process.env.XANO_BASE_URL;
 
+interface IAuthToken {
+  authToken: string;
+}
+
 const credentialsConfig = CredentialsProvider({
-  name: "Credentials",
+  name: "credentials",
   credentials: {
     email: {
       label: "Email",
@@ -19,13 +23,40 @@ const credentialsConfig = CredentialsProvider({
     },
   },
   async authorize(credentials) {
-    const user = await axios.post(`${xanoUrl}/auth/login`, credentials);
+    let errors: String[] = [];
+    const res = await fetch(`${xanoUrl}/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: credentials.email,
+        password: credentials.password,
+      }),
+    });
 
-    if (!user) {
-      throw new Error("Ошибка авторизации");
+    if (!res.ok) {
+      const { message } = await res.json();
+      errors.push(message);
+      throw new Error(`Ошибка авторизации: ${JSON.stringify(message)}`);
     }
 
-    return user.data;
+    const authToken = (await res.json()) as IAuthToken;
+
+    const userRes = await fetch(`${xanoUrl}/auth/me`, {
+      method: "GET",
+      headers: { Authorization: authToken.authToken },
+    });
+
+    if (!userRes.ok) {
+      const { message } = await userRes.json();
+      errors.push(message);
+      throw new Error(`Ошибка токена авторизации: ${message}`);
+    }
+
+    const user = await userRes.json();
+
+    return user;
   },
 });
 

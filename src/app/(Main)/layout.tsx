@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { Header } from "@/components";
 import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";

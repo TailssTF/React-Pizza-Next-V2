@@ -1,42 +1,23 @@
 "use client";
-import { observer } from "mobx-react-lite";
-import { useRouter } from "next/navigation";
+import { login } from "@/api/authActions";
 import Link from "next/link";
-import { ChangeEvent, FormEvent, useState } from "react";
-import { useAuthStore } from "@/stores/AuthStore";
+import { useEffect } from "react";
+import { useFormState } from "react-dom";
 
-const Auth: React.FC = observer(() => {
-  const { signIn, fromPath } = useAuthStore();
-  const router = useRouter();
-  const [input, setInput] = useState({
-    email: "",
-    password: "",
-  });
+const Auth: React.FC = () => {
+  const [state, formAction] = useFormState(login, "");
 
-  const handleSubmitEvent = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (input.email !== "" && input.password !== "") {
-      signIn(input.email);
-
-      router.push(fromPath);
-      localStorage.setItem("isAuth", "true");
-      localStorage.setItem("fromPath", "/");
-    } else {
-      alert("Введите корректные данные");
+  useEffect(() => {
+    if (state) {
+      const stateObj = JSON.parse(state);
+      if (stateObj.kind == "error") {
+        alert("Ошибка авторизации");
+      }
     }
-  };
-
-  const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setInput((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  }, [state]);
 
   return (
-    <form className="auth__form" onSubmit={handleSubmitEvent}>
+    <form className="auth__form" action={formAction}>
       <div className="auth__field">
         <label htmlFor="user-email">Email: </label>
         <input
@@ -48,7 +29,6 @@ const Auth: React.FC = observer(() => {
           maxLength={200}
           aria-describedby="user-email"
           aria-invalid="false"
-          onChange={handleInput}
         />
       </div>
       <div className="auth__field">
@@ -61,13 +41,14 @@ const Auth: React.FC = observer(() => {
           maxLength={200}
           aria-describedby="user-password"
           aria-invalid="false"
-          onChange={handleInput}
           required
         />
       </div>
 
       <div className="auth__buttons">
-        <button className="button">Подтвердить</button>
+        <button className="button" type="submit">
+          Подтвердить
+        </button>
         <Link href={"/reset"} className="button">
           Забыли пароль?
         </Link>
@@ -77,6 +58,6 @@ const Auth: React.FC = observer(() => {
       </div>
     </form>
   );
-});
+};
 
 export default Auth;
