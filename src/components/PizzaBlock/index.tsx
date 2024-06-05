@@ -49,7 +49,14 @@ export const PizzaBlock: React.FC<IPizzaBlockParams> = observer(
           passHref
           onClick={() => isModal && location.reload()}
         >
-          <img className="pizza-block__image" src={imageUrl} alt={title} />
+          <Image
+            className="pizza-block__image"
+            src={imageUrl}
+            alt={title}
+            width={150}
+            height={150}
+            priority
+          />
           <h4 className="pizza-block__title">{title}</h4>
         </Link>
         {isModal && (
