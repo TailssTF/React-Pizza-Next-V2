@@ -1,8 +1,6 @@
 "use server";
-import { IAuthToken, signIn } from "@/auth";
-import axios from "axios";
-import * as bcrypt from "bcrypt";
-import { redirect } from "next/navigation";
+import { signIn } from "@/auth";
+import { AuthError } from "next-auth";
 
 const xanoUrl = process.env.XANO_BASE_URL;
 
@@ -15,10 +13,21 @@ export async function login(state: any, formData: FormData) {
       password: password,
       redirectTo: "/",
     });
-  } catch (error: any) {
+    return undefined;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      const { type, cause } = error as AuthError;
+      switch (type) {
+        case "CredentialsSignin":
+          return "Некорректные данные.";
+        case "CallbackRouteError":
+          return cause?.err?.toString();
+        default:
+          return "Произошла ошибка.";
+      }
+    }
     throw error;
   }
-  return state;
 }
 
 export async function registerUser(formData: FormData) {

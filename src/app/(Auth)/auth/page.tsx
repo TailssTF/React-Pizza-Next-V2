@@ -3,16 +3,14 @@ import { login } from "@/api/authActions";
 import Link from "next/link";
 import { useEffect } from "react";
 import { useFormState } from "react-dom";
+import { toast } from "react-toastify";
 
 const Auth: React.FC = () => {
   const [state, formAction] = useFormState(login, "");
 
   useEffect(() => {
     if (state) {
-      const stateObj = JSON.parse(state);
-      if (stateObj.kind == "error") {
-        alert("Ошибка авторизации");
-      }
+      toast.error(state);
     }
   }, [state]);
 

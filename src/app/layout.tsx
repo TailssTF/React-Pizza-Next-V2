@@ -2,6 +2,8 @@ import { Nunito } from "next/font/google";
 import type { Metadata } from "next";
 import "./globals.css";
 import "../scss/app.scss";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const nunito = Nunito({ subsets: ["cyrillic", "latin"] });
 
@@ -17,7 +19,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={nunito.className}>{children}</body>
+      <body className={nunito.className}>
+        {children}
+        <ToastContainer />
+      </body>
     </html>
   );
 }
