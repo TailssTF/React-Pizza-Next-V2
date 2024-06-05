@@ -1,35 +1,15 @@
 "use client";
 import Link from "next/link";
-import { observer } from "mobx-react-lite";
-import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import PasswordChecklist from "react-password-checklist";
 import { registerUser } from "@/api/authActions";
-import { useAuthStore } from "@/stores/AuthStore";
 
-const Register: React.FC = observer(() => {
-  const { signIn, fromPath } = useAuthStore();
-  const router = useRouter();
-  const [email, setEmail] = useState<string>("");
+const Register: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [passwordAgain, setPasswordAgain] = useState<string>("");
 
-  const handleSubmitEvent = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (email !== "" && password !== "" && password == passwordAgain) {
-      signIn(email);
-      registerUser({ email, password });
-
-      router.push(fromPath);
-      localStorage.setItem("isAuth", "true");
-      localStorage.setItem("fromPath", "/");
-    } else {
-      alert("Введите корректные данные");
-    }
-  };
-
   return (
-    <form className="auth__form" onSubmit={handleSubmitEvent}>
+    <form className="auth__form" action={registerUser}>
       <div className="auth__field">
         <label htmlFor="user-email">Email: </label>
         <input
@@ -41,7 +21,6 @@ const Register: React.FC = observer(() => {
           maxLength={200}
           aria-describedby="user-email"
           aria-invalid="false"
-          onChange={(e) => setEmail(e.target.value)}
         />
       </div>
       <div className="auth__field">
@@ -106,6 +85,6 @@ const Register: React.FC = observer(() => {
       </div>
     </form>
   );
-});
+};
 
 export default Register;

@@ -6,7 +6,7 @@ import axios from "axios";
 
 const xanoUrl = process.env.XANO_BASE_URL;
 
-interface IAuthToken {
+export interface IAuthToken {
   authToken: string;
 }
 
