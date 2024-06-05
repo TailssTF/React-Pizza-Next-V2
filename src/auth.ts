@@ -1,8 +1,6 @@
-import NextAuth, { NextAuthConfig } from "next-auth";
-import "next-auth/jwt";
+import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
-import axios from "axios";
 
 const xanoUrl = process.env.XANO_BASE_URL;
 
@@ -23,7 +21,6 @@ const credentialsConfig = CredentialsProvider({
     },
   },
   async authorize(credentials) {
-    let errors: String[] = [];
     const res = await fetch(`${xanoUrl}/auth/login`, {
       method: "POST",
       headers: {
@@ -37,7 +34,6 @@ const credentialsConfig = CredentialsProvider({
 
     if (!res.ok) {
       const { message } = await res.json();
-      errors.push(message);
       throw new Error(`Ошибка авторизации: ${JSON.stringify(message)}`);
     }
 
@@ -50,7 +46,6 @@ const credentialsConfig = CredentialsProvider({
 
     if (!userRes.ok) {
       const { message } = await userRes.json();
-      errors.push(message);
       throw new Error(`Ошибка токена авторизации: ${message}`);
     }
 
