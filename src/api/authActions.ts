@@ -15,12 +15,11 @@ export async function login(state: any, formData: FormData) {
   const email = formData.get("email");
   const password = formData.get("password");
   try {
-    const res = await signIn("credentials", {
+    await signIn("credentials", {
       email: email,
       password: password,
       redirect: false,
     });
-    redirect("/");
   } catch (error: any) {
     return JSON.stringify(error);
   }
