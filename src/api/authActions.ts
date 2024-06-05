@@ -16,26 +16,26 @@ export async function login(state: any, formData: FormData) {
     return undefined;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      const { type, cause } = error as AuthError;
+      const { type, cause, message } = error as AuthError;
       switch (type) {
         case "CredentialsSignin":
           return "Некорректные данные.";
         case "CallbackRouteError":
           return cause?.err?.toString();
         default:
-          return "Произошла ошибка.";
+          return `Произошла ошибка:\n${message}`;
       }
     }
     throw error;
   }
 }
 
-export async function registerUser(formData: FormData) {
+export async function registerUser(state: any, formData: FormData) {
   const email = formData.get("email");
   const password = formData.get("password");
 
   try {
-    await fetch(`${xanoUrl}/auth/signup`, {
+    const res = await fetch(`${xanoUrl}/auth/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,8 +45,26 @@ export async function registerUser(formData: FormData) {
         password: password,
       }),
     });
-    await login("", formData);
+    const resObj = await res.json();
+
+    if (res.ok) {
+      await login("", formData);
+    } else {
+      throw new Error(resObj.message);
+    }
   } catch (error) {
+    if (error instanceof Error) {
+      const { type, cause, message } = error as AuthError;
+
+      switch (type) {
+        case "CredentialsSignin":
+          return "Некорректные данные.";
+        case "CallbackRouteError":
+          return cause?.err?.toString();
+        default:
+          return `Произошла ошибка:\n${message}`;
+      }
+    }
     throw error;
   }
 }

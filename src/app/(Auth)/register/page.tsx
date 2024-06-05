@@ -1,16 +1,25 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PasswordChecklist from "react-password-checklist";
 import { registerUser } from "@/api/authActions";
+import { useFormState } from "react-dom";
+import { toast } from "react-toastify";
 
 const Register: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [passwordAgain, setPasswordAgain] = useState<string>("");
   const [isValid, setIsValid] = useState(false);
+  const [state, formAction] = useFormState(registerUser, "");
+
+  useEffect(() => {
+    if (state) {
+      toast.error(state);
+    }
+  }, [state]);
 
   return (
-    <form className="auth__form" action={registerUser}>
+    <form className="auth__form" action={formAction}>
       <div className="auth__field">
         <label htmlFor="user-email">Email: </label>
         <input
@@ -78,6 +87,8 @@ const Register: React.FC = () => {
           }}
         />
       </div>
+
+      <p>{state}</p>
 
       <div className="auth__buttons">
         <button
