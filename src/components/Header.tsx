@@ -7,7 +7,6 @@ import Image from "next/image";
 
 import pizzaLogoSvg from "@/assets/img/pizza-logo.svg";
 import { Search } from "./";
-import { SignIn, SignOut } from "./auth-components";
 import { signOut, useSession } from "next-auth/react";
 import { useCartStore } from "@/stores/CartStore";
 
@@ -85,24 +84,27 @@ export const Header: React.FC = observer(() => {
               </div>
             )}
             {session && session.data ? (
-              <button
-                onClick={() => signOut()}
-                className="button button--small"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 96 96"
-                  id="exit"
+              <div className="ml-2 flex flex-row items-center">
+                <p className=" mr-2">{session.data?.user?.email}</p>
+                <button
+                  onClick={() => signOut()}
+                  className="button button--small"
                 >
-                  <path
-                    stroke="#ffffff"
-                    strokeLinecap="round"
-                    strokeWidth="5"
-                    d="M64 35.7059V16C64 12.6863 61.3137 10 58 10H19C15.6863 10 13 12.6863 13 16V80C13 83.3137 15.6863 86 19 86H58C61.3137 86 64 83.3137 64 80V61.9706M77 58L83.818 51.182C85.5754 49.4246 85.5754 46.5754 83.818 44.818L77 38M74 48H47"
-                  ></path>
-                </svg>
-              </button>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 96 96"
+                    id="exit"
+                  >
+                    <path
+                      stroke="#ffffff"
+                      strokeLinecap="round"
+                      strokeWidth="5"
+                      d="M64 35.7059V16C64 12.6863 61.3137 10 58 10H19C15.6863 10 13 12.6863 13 16V80C13 83.3137 15.6863 86 19 86H58C61.3137 86 64 83.3137 64 80V61.9706M77 58L83.818 51.182C85.5754 49.4246 85.5754 46.5754 83.818 44.818L77 38M74 48H47"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
             ) : (
               <Link href="/auth" className="button button--small">
                 <svg
@@ -116,14 +118,6 @@ export const Header: React.FC = observer(() => {
                   ></path>
                 </svg>
               </Link>
-            )}
-            {session && session.data ? (
-              <div className="ml-2 flex flex-row items-center">
-                <p>{session.data?.user?.email}</p>
-                <SignOut />
-              </div>
-            ) : (
-              <SignIn />
             )}
           </div>
         </div>
