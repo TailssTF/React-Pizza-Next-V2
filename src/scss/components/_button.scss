@@ -34,6 +34,14 @@
     transform: translateY(1px);
   }
 
+  &_disabled {
+    background-color: lighten($orange, 20%);
+    &:hover,
+    &:active {
+      background-color: lighten($orange, 20%);
+    }
+  }
+
   &--small {
     display: flex;
     width: 50px;

@@ -7,6 +7,7 @@ import { registerUser } from "@/api/authActions";
 const Register: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [passwordAgain, setPasswordAgain] = useState<string>("");
+  const [isValid, setIsValid] = useState(false);
 
   return (
     <form className="auth__form" action={registerUser}>
@@ -66,6 +67,7 @@ const Register: React.FC = () => {
           maxLength={200}
           value={password}
           valueAgain={passwordAgain}
+          onChange={(isValid) => setIsValid(isValid)}
           messages={{
             minLength: "Пароль содержит минимум 3 символа",
             maxLength: "Пароль содержит максимум 200 символов",
@@ -78,7 +80,12 @@ const Register: React.FC = () => {
       </div>
 
       <div className="auth__buttons">
-        <button className="button">Подтвердить</button>
+        <button
+          className={"button " + (isValid ? "" : "button_disabled")}
+          disabled={!isValid}
+        >
+          Подтвердить
+        </button>
         <Link href={"/auth"} className="button">
           Авторизация
         </Link>

@@ -24,6 +24,7 @@ export async function login(state: any, formData: FormData) {
 export async function registerUser(formData: FormData) {
   const email = formData.get("email");
   const password = formData.get("password");
+
   try {
     const res = await fetch(`${xanoUrl}/auth/signup`, {
       method: "POST",
