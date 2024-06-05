@@ -26,7 +26,7 @@ export async function registerUser(formData: FormData) {
   const password = formData.get("password");
 
   try {
-    const res = await fetch(`${xanoUrl}/auth/signup`, {
+    await fetch(`${xanoUrl}/auth/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
