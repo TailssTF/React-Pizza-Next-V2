@@ -1,6 +1,7 @@
 "use server";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
+import { redirect } from "next/navigation";
 
 const xanoUrl = process.env.XANO_BASE_URL;
 
@@ -11,9 +12,8 @@ export async function login(state: any, formData: FormData) {
     await signIn("credentials", {
       email: email,
       password: password,
-      redirectTo: "/",
+      redirect: false,
     });
-    return undefined;
   } catch (error: unknown) {
     if (error instanceof Error) {
       const { type, cause, message } = error as AuthError;
@@ -28,6 +28,8 @@ export async function login(state: any, formData: FormData) {
     }
     throw error;
   }
+
+  redirect("/");
 }
 
 export async function registerUser(state: any, formData: FormData) {
