@@ -5,7 +5,11 @@ import { redirect } from "next/navigation";
 
 const xanoUrl = process.env.XANO_BASE_URL;
 
-export async function login(state: any, formData: FormData) {
+export async function login(
+  state: any,
+  formData: FormData,
+  isRedirect: boolean = true
+) {
   const email = formData.get("email");
   const password = formData.get("password");
   try {
@@ -29,7 +33,9 @@ export async function login(state: any, formData: FormData) {
     throw error;
   }
 
-  redirect("/");
+  if (isRedirect) {
+    redirect("/");
+  }
 }
 
 export async function registerUser(state: any, formData: FormData) {
@@ -50,7 +56,7 @@ export async function registerUser(state: any, formData: FormData) {
     const resObj = await res.json();
 
     if (res.ok) {
-      await login("", formData);
+      await login("", formData, false);
     } else {
       throw new Error(resObj.message);
     }
@@ -69,4 +75,6 @@ export async function registerUser(state: any, formData: FormData) {
     }
     throw error;
   }
+
+  redirect("/");
 }
