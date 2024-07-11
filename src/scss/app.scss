@@ -70,8 +70,6 @@ body {
 }
 
 .content {
-  padding: 40px 0;
-
   &__title {
     margin: 35px 0;
     font-weight: 800;
@@ -226,11 +224,20 @@ body {
     padding-top: 30px;
     margin-top: 30px;
 
+    @media (max-width: 645px) {
+      flex-direction: column;
+    }
+
     &-img {
       display: flex;
       align-items: center;
       margin-right: 15px;
-      width: 10%;
+      width: 95px;
+      min-width: 80px;
+
+      @media (max-width: 645px) {
+        margin-bottom: 16px;
+      }
 
       img {
         width: 80px;
@@ -242,7 +249,7 @@ body {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      width: 40%;
+      width: 100%;
 
       h3 {
         font-weight: bold;

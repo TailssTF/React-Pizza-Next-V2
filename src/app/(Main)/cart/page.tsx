@@ -1,21 +1,15 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { observer } from "mobx-react-lite";
-import { redirect } from "next/navigation";
 import { PizzaInCart, CartEmpty } from "@/components";
 import Link from "next/link";
-import { useAuthStore } from "@/stores/AuthStore";
 import { useCartStore } from "@/stores/CartStore";
+import { useSession } from "next-auth/react";
 
 const Cart: React.FC = observer(() => {
   const { items, totalItems, totalPrice, clearCart } = useCartStore();
-  const { isAuth, setFromPath } = useAuthStore();
   const isMounted = useRef(false);
-
-  const onCLickAuth = () => {
-    setFromPath("/cart");
-    redirect("/auth");
-  };
+  const session = useSession();
 
   useEffect(() => {
     isMounted.current = true;
@@ -110,11 +104,17 @@ const Cart: React.FC = observer(() => {
           <div className="cart__bottom-details">
             <span>
               {" "}
-              Всего пицц: <b>{totalItems} шт.</b>{" "}
+              Всего пицц:{" "}
+              <span className=" text-nowrap">
+                <b>{totalItems} шт.</b>
+              </span>{" "}
             </span>
             <span>
               {" "}
-              Сумма заказа: <b>{totalPrice} ₽</b>{" "}
+              Сумма заказа:{" "}
+              <span className=" text-nowrap">
+                <b>{totalPrice} ₽</b>
+              </span>{" "}
             </span>
           </div>
           <div className="cart__bottom-buttons">
@@ -137,16 +137,16 @@ const Cart: React.FC = observer(() => {
 
               <span>Вернуться назад</span>
             </Link>
-            {isAuth ? (
+            {session && session.data ? (
               <div className="button pay-btn">
                 <span>Оплатить сейчас</span>
               </div>
             ) : (
-              <div>
-                <span>Для оплаты необходимо </span>
-                <button onClick={onCLickAuth} className="button">
+              <div className=" w-full flex-col flex items-end">
+                <span className=" mb-1">Для оплаты необходимо </span>
+                <Link href="/auth" className="button">
                   Авторизоваться
-                </button>
+                </Link>
               </div>
             )}
           </div>

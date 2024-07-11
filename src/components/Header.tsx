@@ -48,7 +48,9 @@ export const Header: React.FC = observer(() => {
             {pathName != "/cart" && (
               <div className="header__cart">
                 <Link href="/cart" className="button button--cart">
-                  <span>{isMounted.current ? totalPrice : 0} ₽</span>
+                  <span className=" text-nowrap">
+                    {isMounted.current ? totalPrice : 0} ₽
+                  </span>
                   <div className="button__delimiter"></div>
                   <svg
                     width="18"
